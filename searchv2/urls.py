@@ -4,5 +4,6 @@ from searchv2 import views
 
 urlpatterns = [
     url(r'search$', views.searchUrl),
-    url(r'view-result$', views.viewResult)
+    # url(r'view-result$', views.viewResult)
+    url(r'get_urls$', views.getUrls)
 ]
