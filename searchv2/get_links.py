@@ -6,15 +6,14 @@ from bs4 import BeautifulSoup
 
 def get_links(url):
     links=[]
-    website = requests.get(url)
-    website_text = website.text
-    soup = BeautifulSoup(website_text)
+    website = requests.get(url).text # Get html in text
+    soup = BeautifulSoup(website)   # BeautifulSoup object which will ping the requested url for data
 
-    for link in soup.find_all('a'):
-        links.append(link.get('href')) #do a loop and save all url to links
+    for each_link in soup.find_all('a'):
+        links.append(each_link.get('href')) # Do a loop and save all url to links
 
     lengthLinks = len(links) 
-    links.append(lengthLinks) #save the length of the links and the end of links
+    links.append(lengthLinks) # Save the length of the links and the end of links
     
     out_file = open("urlData.json", "w")
     json.dump(links, out_file, indent=4)
