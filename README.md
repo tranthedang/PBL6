@@ -31,8 +31,6 @@
 
 <h2>Khởi tạo django</h2>
 <h3>Tại thư muc dự án:</h3>
-<h4>Chạy venv</h4>
-<ul><li>source venv/bin/activate</li></ul>
 <h4>Cài đặt thư viện</h4>
 <ul><li>pip install -r requirements.txt</ul></li>
 <h4>Migrate db</h4>
