@@ -13,4 +13,4 @@ class Link(models.Model):
 class LinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Link
-        fields = ['title', 'description', 'count_click', 'category']
+        fields = '__all__'

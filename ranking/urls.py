@@ -1,12 +1,9 @@
 from django.conf.urls import url
-import views
+from ranking import views
 
 
 urlpatterns = [
-    url(r'get_locations$', views.getLocations),
-    # url(r'importcounts$', views.importCounts),
-    url(r'create_location$', views.createLocation),
-    # url(r'deleteaccount$', views.deleteAccount),
-    # url(r'loginaccount$', views.loginAccount)
-    url(r'map_reduce$', views.mapReduce)
+    url(r'get_links$', views.getUrl),
+    url(r'map_reduce$', views.mapReduce),
+    url(r'create_links$', views.createUrl) #adminsator only
 ]

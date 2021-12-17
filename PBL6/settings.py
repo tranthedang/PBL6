@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'searchv2',
     'find',
+    'ranking',
     'rest_framework'
 ]
 

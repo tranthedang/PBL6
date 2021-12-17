@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
-from models import Link, LinkSerializer
+from ranking.models import Link, LinkSerializer
 from collections import defaultdict
 import re
 
@@ -11,16 +11,16 @@ def getUrl(request):
     Url = list(Link.objects.all().values())
     Url_serializer = LinkSerializer(data=Url, many=True)
     if Url_serializer.is_valid():
-        return JsonResponse(Url_serializer.data, safe=False)
+        return JsonResponse(Url, safe=False)
     return JsonResponse(Url_serializer.errors, safe=False)
 
 def createUrl(request):
-    Url_data = JSONParser().parse(request)
-    Url_serializer = LinkSerializer(data=Url_data) 
-    if Url_serializer.is_valid():
-        Url_serializer.save()
+    link_data = JSONParser().parse(request)
+    link_serializer = LinkSerializer(data=link_data)
+    if link_serializer.is_valid():
+        link_serializer.save()
         return JsonResponse("Added", safe=False)
-    return JsonResponse(Url_serializer.errors, safe=False)
+    return JsonResponse(link_serializer.errors, safe=False)
 
 ## SPLIT ##
 def splitter(message):
@@ -53,17 +53,20 @@ def link_count(documents):
         reducer(link, count)
 
 def mapReduce(request):
-    data = JSONParser().parse(request)
-    link_count(data['data'])
-    return
-
+    try:
+        data = JSONParser().parse(request)
+        link_count(data['data'])
+        return JsonResponse("Succed",safe=False)
+    except:
+        return JsonResponse("Failed",safe=False)
+        
 def updateData(data):
     count = 0
     link = Link.objects.get(id=data[0])
     count = link.count_click + data[1]
     location_res = {
         "id": data[0],
-        "url": link.title,
+        "url": link.url,
         "description": link.description,
         "count_click": count,
         "category": link.category
@@ -74,3 +77,4 @@ def updateData(data):
         print("Done")
     else:
         print('Error')
+

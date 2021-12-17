@@ -59,7 +59,7 @@ def createDictionary(clean_list):
             words_count.append((key,value))
 
         counter = Counter(word_count)
-        top_common = counter.most_common(20) # Top 20 most common url
+        top_common = counter.most_common(50) # Top 50 most common url
         return top_common
     except:
         return "Calculation error"

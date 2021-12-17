@@ -21,5 +21,6 @@ from django.conf.urls import url, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^', include('find.urls')),
-    url(r'^', include('searchv2.urls'))
+    url(r'^', include('searchv2.urls')),
+    url(r'^', include('ranking.urls'))
 ]
