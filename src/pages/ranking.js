@@ -50,6 +50,11 @@ const Ranking = () => {
       dataIndex: "category",
       key: "category",
     },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+    },
   ];
 
   const handleClick = (text) => {
@@ -89,7 +94,7 @@ const Ranking = () => {
           Refresh
         </Button>
         <Table
-          dataSource={data}
+          dataSource={[...data].sort((a, b) => b.count_click - a.count_click)}
           columns={columns}
           pagination={{ pageSize: 10 }}
           // scroll={{ y: 240 }}
