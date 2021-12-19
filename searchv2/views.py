@@ -9,9 +9,7 @@ def getUrls(url):
     try:
         dataReceive = JSONParser().parse(url)
         text = getLinks(dataReceive['url'])
-        dataReturn = {
-            "data" : text
-        }
+        dataReturn = text
         return JsonResponse(dataReturn, safe=False)
     except:
         return JsonResponse("Connection error", safe=False)
