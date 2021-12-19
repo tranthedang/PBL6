@@ -1,24 +1,28 @@
 import { Button, Table, Typography } from "antd";
-import React, { useEffect, useState } from "react";
-import { getRankings } from "../apis/actions";
+import React, { useCallback, useEffect, useState } from "react";
+import { getRankings, reloadDb } from "../apis/actions";
 import MainLayout from "../components/Layout";
 
 const Ranking = () => {
   const [data, setData] = useState([
     { key: 1, id: 1, url: "https://www.facebook.com/", category: "test" },
   ]);
+  const [selectedUrl, setSelectedUrl] = useState([]);
 
-  //   useEffect(() => {
-  //     (async () => {
-  //       try {
-  //         const response = await getRankings();
+  const getRankingsData = useCallback(async () => {
+    try {
+      const response = await getRankings();
 
-  //         console.log(response.data);
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     })();
-  //   }, []);
+      console.log(response.data);
+      setData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    getRankingsData();
+  }, [getRankingsData]);
 
   const columns = [
     {
@@ -34,7 +38,7 @@ const Ranking = () => {
         <Typography.Link
           href={text}
           target="_blank"
-          onClick={handleClick}
+          onClick={() => handleClick(text)}
           rel="noopener noreferrer"
         >
           {text}
@@ -48,15 +52,31 @@ const Ranking = () => {
     },
   ];
 
-  const handleClick = () => {
+  const handleClick = (text) => {
     console.log("clicked");
+    const foundUrl = data.find((item) => item.url === text);
+
+    if (foundUrl) {
+      setSelectedUrl(...selectedUrl, foundUrl.id);
+    }
   };
+
+  const handleRefresh = useCallback(async () => {
+    if (selectedUrl.length > 0) {
+      try {
+        await reloadDb(selectedUrl);
+        await getRankingsData();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [getRankingsData, selectedUrl]);
 
   return (
     <MainLayout>
       <div style={{ marginTop: "40px", height: "85vh" }}>
         <Button
-          onClick={handleClick}
+          onClick={handleRefresh}
           style={{
             marginBottom: "14px",
           }}

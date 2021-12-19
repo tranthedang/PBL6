@@ -1,5 +1,6 @@
 import { Button, Form, Input, Select } from "antd";
 import { useEffect, useState } from "react";
+import { getTopKeywords, getUrlsOfLink } from "../apis/actions";
 import MainLayout from "../components/Layout";
 
 const { Option } = Select;
@@ -7,19 +8,39 @@ const { Option } = Select;
 const Search = () => {
   const [form] = Form.useForm();
   const [, forceUpdate] = useState({});
+  const [data, setData] = useState();
+  const [searchType, setSearchType] = useState("keywords");
 
   useEffect(() => {
     forceUpdate({});
   }, []);
 
-  const onFinish = (values) => {
-    console.log("Finish:", values);
-    form.resetFields();
+  const onFinish = async (values) => {
+    try {
+      console.log("Finish:", values);
+
+      if (searchType === "keywords") {
+        const response = await getTopKeywords(values);
+
+        console.log(response.data);
+        setData(response.data);
+      } else {
+        const response = await getUrlsOfLink(values);
+        console.log(response.data);
+        setData(response.data);
+      }
+
+      form.resetFields();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (e) => {
     console.log(e.target.value);
   };
+
+  console.log(data);
 
   return (
     <MainLayout>
@@ -33,8 +54,9 @@ const Search = () => {
         <h1>Search something...</h1>
         <div>
           <Select
-            defaultValue="keywords"
+            value={searchType}
             style={{ marginRight: "26px", display: "inline-block" }}
+            onChange={(val) => setSearchType(val)}
           >
             <Option value="keywords">Get top key words of the url</Option>
             <Option value="statistic">Get all links have in the url</Option>
