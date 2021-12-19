@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select, Tag, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { getTopKeywords, getUrlsOfLink } from "../apis/actions";
 import MainLayout from "../components/Layout";
@@ -97,9 +97,25 @@ const Search = () => {
             </Form.Item>
           </Form>
         </div>
-        {/* <div>
-          <p>Result:</p>
-        </div> */}
+        {searchType === "keywords"
+          ? data !== undefined && (
+              <div>
+                <p>Result:</p>
+                {Object.entries(data).map(([key, val]) => (
+                  <Tag key={key}>
+                    {key}:{val}
+                  </Tag>
+                ))}
+              </div>
+            )
+          : data !== undefined && (
+              <div>
+                <p>Result:</p>
+                {data.map((val, id) => (
+                  <Typography.Text key={id}>{val}</Typography.Text>
+                ))}
+              </div>
+            )}
       </div>
     </MainLayout>
   );

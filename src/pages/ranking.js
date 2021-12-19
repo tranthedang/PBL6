@@ -26,9 +26,9 @@ const Ranking = () => {
 
   const columns = [
     {
-      title: "Id",
-      dataIndex: "id",
-      key: "id",
+      title: "Number of click",
+      dataIndex: "count_click",
+      key: "count_click",
     },
     {
       title: "Url",
@@ -57,7 +57,12 @@ const Ranking = () => {
     const foundUrl = data.find((item) => item.url === text);
 
     if (foundUrl) {
-      setSelectedUrl(...selectedUrl, foundUrl.id);
+      if (selectedUrl.length === 0) {
+        setSelectedUrl(...selectedUrl, foundUrl.id);
+      } else {
+        const firstItem = selectedUrl[0];
+        setSelectedUrl([`${firstItem} ${foundUrl.id}`]);
+      }
     }
   };
 

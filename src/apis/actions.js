@@ -1,7 +1,7 @@
 import Api from ".";
 
 export const getRankings = async () => {
-  const response = await Api.get("/get-links");
+  const response = await Api.get("/get_links");
   return response;
 };
 
