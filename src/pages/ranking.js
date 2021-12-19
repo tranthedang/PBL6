@@ -63,7 +63,7 @@ const Ranking = () => {
 
     if (foundUrl) {
       if (selectedUrl.length === 0) {
-        setSelectedUrl(...selectedUrl, foundUrl.id);
+        setSelectedUrl([foundUrl.id]);
       } else {
         const firstItem = selectedUrl[0];
         setSelectedUrl([`${firstItem} ${foundUrl.id}`]);
@@ -74,7 +74,7 @@ const Ranking = () => {
   const handleRefresh = useCallback(async () => {
     if (selectedUrl.length > 0) {
       try {
-        await reloadDb(selectedUrl);
+        await reloadDb({ data: selectedUrl });
         await getRankingsData();
       } catch (error) {
         console.log(error);
