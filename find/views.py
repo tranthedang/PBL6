@@ -4,23 +4,17 @@ from bs4 import BeautifulSoup
 from collections import Counter
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
+from rest_framework.decorators import api_view
 
-words_count = []
-top_common = []
-
+@api_view(['POST'])
 def getWords(url):
     try:
         dataReceive = JSONParser().parse(url)
-        text = getWordList(dataReceive['url'])
-        dataReturn = {
-            "data" : text
-        }
-        print(text)
+        dataReturn = getWordList(dataReceive['url'])
         return JsonResponse(dataReturn, safe=False)
     except:
         return JsonResponse("Connection error", safe=False)
     
-
 def getWordList(url):
     wordlist = []
     source_code = requests.get(url).text
@@ -47,6 +41,7 @@ def cleanWordlist(wordlist):
     return createDictionary(clean_list) # Creates a dictionary containing each word's count and top_20 occurring words
     
 def createDictionary(clean_list):
+
     try:
         word_count = {}
         for word in clean_list:
@@ -54,12 +49,11 @@ def createDictionary(clean_list):
                 word_count[word] += 1
             else:
                 word_count[word] = 1
-
-        for key, value in sorted(word_count.items(), key = operator.itemgetter(1)): # operator.itemgette: Use to take one parameter either 1(denotes keys) or 0 (denotes corresponding values)
-            words_count.append((key,value))
-
+        # words_count = []
+        # for key, value in sorted(word_count.items(), key = operator.itemgetter(1)): # operator.itemgette: Use to take one parameter either 1(denotes keys) or 0 (denotes corresponding values)
+        #     words_count.append({key:value}) # Sort 
         counter = Counter(word_count)
-        top_common = counter.most_common(50) # Top 50 most common url
+        top_common = dict(counter.most_common(50)) # Top 50 most common words
         return top_common
     except:
         return "Calculation error"

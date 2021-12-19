@@ -4,9 +4,10 @@ from rest_framework.decorators import api_view
 from django.http.response import JsonResponse
 from ranking.models import Link, LinkSerializer
 from collections import defaultdict
+from rest_framework.decorators import api_view
 import re
 
-# Create your views here.
+@api_view(['GET'])
 def getUrl(request):
     Url = list(Link.objects.all().values())
     Url_serializer = LinkSerializer(data=Url, many=True)
@@ -14,13 +15,24 @@ def getUrl(request):
         return JsonResponse(Url, safe=False)
     return JsonResponse(Url_serializer.errors, safe=False)
 
+@api_view(['POST'])
 def createUrl(request):
     link_data = JSONParser().parse(request)
+    print(link_data)
     link_serializer = LinkSerializer(data=link_data)
     if link_serializer.is_valid():
         link_serializer.save()
         return JsonResponse("Added", safe=False)
     return JsonResponse(link_serializer.errors, safe=False)
+
+@api_view(['POST'])
+def mapReduce(request):
+    try:
+        data = JSONParser().parse(request)
+        link_count(data['data'])
+        return JsonResponse("Succed",safe=False)
+    except:
+        return JsonResponse("Failed",safe=False)
 
 ## SPLIT ##
 def splitter(message):
@@ -51,14 +63,6 @@ def link_count(documents):
             collector[link].append(count)
     for link, count in collector.items():
         reducer(link, count)
-
-def mapReduce(request):
-    try:
-        data = JSONParser().parse(request)
-        link_count(data['data'])
-        return JsonResponse("Succed",safe=False)
-    except:
-        return JsonResponse("Failed",safe=False)
         
 def updateData(data):
     count = 0
@@ -71,10 +75,10 @@ def updateData(data):
         "count_click": count,
         "category": link.category
     }
-    location_serializer = LinkSerializer(link, data=location_res)
-    if location_serializer.is_valid():
-        location_serializer.save()
-        print("Done")
+    link_serializer = LinkSerializer(link, data=location_res)
+    if link_serializer.is_valid():
+        link_serializer.save()
+        print('Done for:', link_serializer)
     else:
-        print('Error')
+        print('Error', link_serializer)
 

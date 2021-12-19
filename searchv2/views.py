@@ -2,9 +2,9 @@ from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 import requests
 from bs4 import BeautifulSoup
+from rest_framework.decorators import api_view
 
-# Create your views here.
-links = []
+@api_view(['POST'])
 def getUrls(url):
     try:
         dataReceive = JSONParser().parse(url)
@@ -18,6 +18,7 @@ def getUrls(url):
         
 
 def getLinks(url):
+    links = []
     try:
         website = requests.get(url).text # Get html in text
         soup = BeautifulSoup(website,'html.parser')   # BeautifulSoup object which will ping the requested url for data
@@ -26,7 +27,7 @@ def getLinks(url):
             links.append(each_link.get('href')) # Do a loop and save all url to links
             
         unique_links = list(dict.fromkeys(links)) # Remove all duplicate url
-        links.clear() # links = []
+        links.clear()
         
         unique_links.append(len(unique_links)) # Save the length of the links and the end of links
         links.append(unique_links) 
