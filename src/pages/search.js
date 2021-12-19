@@ -1,5 +1,5 @@
 import { Button, Form, Input, Select, Tag, Typography } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getTopKeywords, getUrlsOfLink } from "../apis/actions";
 import MainLayout from "../components/Layout";
 
@@ -7,13 +7,8 @@ const { Option } = Select;
 
 const Search = () => {
   const [form] = Form.useForm();
-  const [, forceUpdate] = useState({});
   const [data, setData] = useState();
   const [searchType, setSearchType] = useState("keywords");
-
-  useEffect(() => {
-    forceUpdate({});
-  }, []);
 
   const onFinish = async (values) => {
     try {
@@ -97,25 +92,23 @@ const Search = () => {
             </Form.Item>
           </Form>
         </div>
-        {searchType === "keywords"
-          ? data !== undefined && (
-              <div>
-                <p>Result:</p>
-                {Object.entries(data).map(([key, val]) => (
-                  <Tag key={key}>
-                    {key}:{val}
-                  </Tag>
-                ))}
-              </div>
-            )
-          : data !== undefined && (
-              <div>
-                <p>Result:</p>
-                {data.map((val, id) => (
-                  <Typography.Text key={id}>{val}</Typography.Text>
-                ))}
-              </div>
-            )}
+        {data !== undefined && Array.isArray(data) ? (
+          <div>
+            <p>Result:</p>
+            {data.map((val, id) => (
+              <Typography.Text key={id}>{val}</Typography.Text>
+            ))}
+          </div>
+        ) : (
+          <div>
+            <p>Result:</p>
+            {Object.entries(data).map(([key, val]) => (
+              <Tag key={key}>
+                {key}:{val}
+              </Tag>
+            ))}
+          </div>
+        )}
       </div>
     </MainLayout>
   );
