@@ -25,11 +25,7 @@ def getLinks(url):
             links.append(each_link.get('href')) # Do a loop and save all url to links
             
         unique_links = list(dict.fromkeys(links)) # Remove all duplicate url
-        links.clear()
-        
-        unique_links.append(len(unique_links)) # Save the length of the links and the end of links
-        links.append(unique_links) 
-        return links
+        return unique_links
     except:
         return "It's not an URL"
     
