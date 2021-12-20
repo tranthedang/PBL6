@@ -1,5 +1,5 @@
 import { Button, Form, Input, Select, Tag, Typography } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getTopKeywords, getUrlsOfLink } from "../apis/actions";
 import MainLayout from "../components/Layout";
 
@@ -9,6 +9,11 @@ const Search = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState();
   const [searchType, setSearchType] = useState("keywords");
+  const [, forceUpdate] = useState({});
+
+  useEffect(() => {
+    forceUpdate({});
+  }, []);
 
   const onFinish = async (values) => {
     try {

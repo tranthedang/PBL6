@@ -94,7 +94,9 @@ const Ranking = () => {
           Refresh
         </Button>
         <Table
-          dataSource={[...data].sort((a, b) => b.count_click - a.count_click)}
+          dataSource={[...data]
+            .map((val) => ({ ...val, key: val.id }))
+            .sort((a, b) => b.count_click - a.count_click)}
           columns={columns}
           pagination={{ pageSize: 10 }}
           // scroll={{ y: 240 }}
