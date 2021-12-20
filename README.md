@@ -7,7 +7,8 @@ Vào cửa sổ dòng lệnh:
 
 ## Clone Repository
 
-Vào cửa số dòng lệnh: `git clone https://github.com/bomaynhanuoc/PBL6_Client.git`
+Vào cửa số dòng lệnh: `git clone https://github.com/tranthedang/PBL6.git`
+                      `git checkout client`
 
 ## Available Scripts
 
