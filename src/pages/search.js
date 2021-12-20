@@ -99,7 +99,7 @@ const Search = () => {
             <div>
               <p>Result:</p>
               {Object.entries(data).map(([key, val]) => (
-                <Tag key={key}>
+                <Tag style={{ margin: "0px 16px 12px 0" }} key={key}>
                   <p
                     style={{
                       fontSize: "22px",
