@@ -5,7 +5,7 @@
 <h2>Git clone</h2>
 <h3>Tại thư mục dự án:</h3>
 <ul>
-<li>git clone https://github.com/tranthedang/PBL6/tree/Dang</li>
+<li>git clone `git clone https://github.com/tranthedang/PBL6.git`</li>
 </ul>
 
 <h2>Cài đặt venv</h2>
