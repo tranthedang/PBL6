@@ -9,11 +9,6 @@ const Search = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState();
   const [searchType, setSearchType] = useState("keywords");
-  const [, forceUpdate] = useState({});
-
-  useEffect(() => {
-    forceUpdate({});
-  }, []);
 
   const onFinish = async (values) => {
     try {
@@ -34,10 +29,6 @@ const Search = () => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleChange = (e) => {
-    console.log(e.target.value);
   };
 
   console.log(data);
@@ -65,7 +56,6 @@ const Search = () => {
             style={{ display: "inline-flex" }}
             form={form}
             layout="inline"
-            onChange={handleChange}
             onFinish={onFinish}
           >
             <Form.Item
@@ -97,23 +87,25 @@ const Search = () => {
             </Form.Item>
           </Form>
         </div>
-        {data !== undefined && Array.isArray(data) ? (
-          <div>
-            <p>Result:</p>
-            {data.map((val, id) => (
-              <Typography.Text key={id}>{val}</Typography.Text>
-            ))}
-          </div>
-        ) : (
-          <div>
-            <p>Result:</p>
-            {Object.entries(data).map(([key, val]) => (
-              <Tag key={key}>
-                {key}:{val}
-              </Tag>
-            ))}
-          </div>
-        )}
+        {data !== undefined ? (
+          Array.isArray(data) ? (
+            <div>
+              <p>Result:</p>
+              {data.map((val, id) => (
+                <Typography.Text key={id}>{val}</Typography.Text>
+              ))}
+            </div>
+          ) : (
+            <div>
+              <p>Result:</p>
+              {Object.entries(data).map(([key, val]) => (
+                <Tag key={key}>
+                  {key}:{val}
+                </Tag>
+              ))}
+            </div>
+          )
+        ) : null}
       </div>
     </MainLayout>
   );

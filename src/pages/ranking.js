@@ -58,7 +58,6 @@ const Ranking = () => {
   ];
 
   const handleClick = (text) => {
-    console.log("clicked");
     const foundUrl = data.find((item) => item.url === text);
 
     if (foundUrl) {
@@ -75,6 +74,7 @@ const Ranking = () => {
     if (selectedUrl.length > 0) {
       try {
         await reloadDb({ data: selectedUrl });
+        setSelectedUrl([]);
         await getRankingsData();
       } catch (error) {
         console.log(error);
