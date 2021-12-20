@@ -19,7 +19,7 @@ const MainLayout = ({ children }) => {
                 color: "white",
               }}
             >
-              PBL6
+              PBL6 - Đồ án Mạng và Truyền thông
             </Typography.Title>
           }
           extra={

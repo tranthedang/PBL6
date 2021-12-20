@@ -99,7 +99,6 @@ const Ranking = () => {
             .sort((a, b) => b.count_click - a.count_click)}
           columns={columns}
           pagination={{ pageSize: 10 }}
-          // scroll={{ y: 240 }}
         />
       </div>
     </MainLayout>

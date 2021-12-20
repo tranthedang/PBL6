@@ -1,5 +1,5 @@
-import { Button, Form, Input, Select, Tag, Typography } from "antd";
-import { useState, useEffect } from "react";
+import { Button, Form, Input, Select, Tag } from "antd";
+import { useState } from "react";
 import { getTopKeywords, getUrlsOfLink } from "../apis/actions";
 import MainLayout from "../components/Layout";
 
@@ -30,8 +30,6 @@ const Search = () => {
       console.log(error);
     }
   };
-
-  console.log(data);
 
   return (
     <MainLayout>
@@ -90,9 +88,11 @@ const Search = () => {
         {data !== undefined ? (
           Array.isArray(data) ? (
             <div>
-              <p>Result:</p>
+              <p style={{ marginTop: "10px" }}>Result:</p>
               {data.map((val, id) => (
-                <Typography.Text key={id}>{val}</Typography.Text>
+                <div key={id}>
+                  <p style={{ fontSize: "22px" }}>{val}</p>
+                </div>
               ))}
             </div>
           ) : (
@@ -100,7 +100,15 @@ const Search = () => {
               <p>Result:</p>
               {Object.entries(data).map(([key, val]) => (
                 <Tag key={key}>
-                  {key}:{val}
+                  <p
+                    style={{
+                      fontSize: "22px",
+                      padding: "4px 8px 8px",
+                      marginBottom: "0",
+                    }}
+                  >
+                    {key}:{val}
+                  </p>
                 </Tag>
               ))}
             </div>
